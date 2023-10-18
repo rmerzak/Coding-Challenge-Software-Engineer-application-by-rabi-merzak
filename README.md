@@ -91,7 +91,8 @@ INSERT INTO  `categories` (`id`, `name`, `parent_id`, `created_at`, `updated_at`
 (3, 'Laptops', 1, NULL, NULL),
 (4, 'Clothing', NULL, NULL, NULL),
 (5, 'Men\'s Clothing', 4, NULL, NULL),
-(6, 'Women\'s Clothing', 4, NULL, NULL);```
+(6, 'Women\'s Clothing', 4, NULL, NULL);
+```
 
 ![](https://github.com/rmerzak/Coding-Challenge-Software-Engineer-application-by-rabi-merzak/blob/main/impl/realone.png?raw=true)
 ![](https://github.com/rmerzak/Coding-Challenge-Software-Engineer-application-by-rabi-merzak/blob/main/impl/form.png?raw=true)
