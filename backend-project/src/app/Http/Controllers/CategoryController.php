@@ -15,8 +15,8 @@ class CategoryController extends Controller
     }
 
     public function index()
-    {
-        //
+    {   $category = $this->categoryService->getAll();
+        return response()->json($category);
     }
 
 
@@ -28,8 +28,20 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
-        //
+        $result = ['status' => 200];
+    try {
+        $category = $this->categoryService->saveCategoryData($request);
+
+        $result['category'] = $category;
+    } catch (Exception $e) {
+        $result = [
+            'status' => 500,
+            'error' => $e->getMessage()
+        ];
     }
+
+    return response()->json($result, $result['status']);
+}
 
 
     public function show(string $id)

@@ -22,4 +22,18 @@ class CategoryService
     {
         return $this->categoryRepository->getAll();
     }
+
+    public function saveCategoryData($request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name'=>'required',
+        ]);
+
+        if ($validator->fails()) {
+            throw new InvalidArgumentException($validator->errors()->first());
+        }
+        $result = $this->categoryRepository->save($request);
+
+        return $result;
+    }
 }
