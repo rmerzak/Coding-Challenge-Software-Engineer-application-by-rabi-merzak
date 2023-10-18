@@ -4,9 +4,9 @@
 
 A simple product management system built with Laravel and Vue.js, created as a coding challenge for the position of Junior Software Engineer - Backend (PHP).
 
-## Usage
+# Usage
 
-### Backend install
+# Backend install
 
 1. Execute the following command
 
@@ -63,7 +63,7 @@ GET /products/:id | Get details about a post
 DELETE /products/:id | Delete a products
 POST /category | Create a category
 GET /category  | Get a listing of category
-## Frontend install
+# Frontend install
 
 1. Execute the following command
 
@@ -73,3 +73,25 @@ $ npm install --force
 $ npm run serve
 ```
 http://localhost:8080
+
+# Implementation
+
+### Categorie add
+before adding any product you must add those categories in your backend , you can use adminer go to 
+http://localhost:8081
+username:youcan
+password:secret
+Database:laravel
+(Dont forget "make migrate" in the backend-project)
+then chose categories table and run this command:
+```
+INSERT INTO  `categories` (`id`, `name`, `parent_id`, `created_at`, `updated_at`) VALUES
+(1, 'Electronics ', NULL, NULL, NULL),
+(2, 'Smartphones', 1, NULL, NULL),
+(3, 'Laptops', 1, NULL, NULL),
+(4, 'Clothing', NULL, NULL, NULL),
+(5, 'Men\'s Clothing', 4, NULL, NULL),
+(6, 'Women\'s Clothing', 4, NULL, NULL);```
+
+![](https://github.com/rmerzak/Coding-Challenge-Software-Engineer-application-by-rabi-merzak/blob/main/impl/realone.png?raw=true)
+![](https://github.com/rmerzak/Coding-Challenge-Software-Engineer-application-by-rabi-merzak/blob/main/impl/form.png?raw=true)
