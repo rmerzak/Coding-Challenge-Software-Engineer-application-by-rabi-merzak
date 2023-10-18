@@ -1,4 +1,5 @@
 <template>
+  <div :class="{ 'background-opacity': table.form }">
   <table-lite
     :is-slot-mode="true"
     :max-height="800"
@@ -38,6 +39,7 @@
       </div>
     </template>
   </table-lite>
+</div>
   <div class="my-3">
     <button class="btn btn-primary" @click.prevent="onSHowDialog()">Add product</button>
     <FormComponents v-if="table.form" @updateProductData="updateProductData">
@@ -160,3 +162,8 @@ export default defineComponent({
   },
 });
 </script>
+<style>
+.background-opacity {
+  opacity: 0.7;
+}
+</style>

@@ -5,7 +5,7 @@
       <transition name="fade" mode="out-in">
         <div class=" w-[400px] h-full  text-white transition" v-show="showSideBar">
           <div class="h-[50px] bg-gray-900 flex items-center">
-            <div class="font-bold text-xl px-[20px]">Dash</div>
+            <div class="font-bold text-xl px-[20px]">Coding challenge</div>
           </div>
           <div class="bg-gray-800 h-[calc(100%-50px)] px-[20px] py-[20px]">
             <div class="flex flex-col justify-between h-full">
