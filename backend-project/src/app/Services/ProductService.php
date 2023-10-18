@@ -22,4 +22,22 @@ class ProductService
     {
         return $this->productRepository->getAllWithCategory();
     }
+
+    public function saveProductData($request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name'=>'required',
+           'description'=>'required',
+            'price' => 'required',
+            'image' => 'image|nullable|max:1999'
+        ]);
+
+        if ($validator->fails()) {
+            throw new InvalidArgumentException($validator->errors()->first());
+        }
+
+        $result = $this->productRepository->save($request);
+
+        return $result;
+    }
 }
