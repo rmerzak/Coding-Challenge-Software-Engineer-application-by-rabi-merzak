@@ -7,9 +7,6 @@ services:
     container_name: vue-app
     ports:
       - "8080:80"
-    volumes:
-      - ./src:/app/src
-      - ./node_modules:/app/node_modules
   nginx:
     image: nginx:alpine
     container_name: nginx-app

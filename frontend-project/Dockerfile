@@ -1,23 +1,12 @@
-# Build Stage
-FROM node:16.10.0-alpine3.13 as build-stage
+FROM node
+RUN mkdir /usr/src/app
+WORKDIR /usr/src/app
 
-WORKDIR /app
+ENV PATH /usr/src/app/node_modules/.bin:$PATH
 
-COPY package*.json ./
-
-RUN yarn install
-
+COPY package.json /usr/src/app/package.json
 COPY . .
-
-RUN yarn build
-
-# Production Stage
-FROM nginx:stable-alpine as production-stage
-
-COPY --from=build-stage /app/dist /usr/share/nginx/html
-
-COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
-
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+RUN npm install --force
+RUN npm install -g @vue/cli
+# start app
+CMD ["npm", "run", "serve"]
