@@ -164,6 +164,6 @@ export default defineComponent({
 </script>
 <style>
 .background-opacity {
-  opacity: 0.7;
+  opacity: 0.8;
 }
 </style>
