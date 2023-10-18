@@ -38,6 +38,14 @@
       </div>
     </template>
   </table-lite>
+  <div class="my-3">
+    <button class="btn btn-primary" @click.prevent="onSHowDialog()">Add product</button>
+    <FormComponents v-if="table.form" @updateProductData="updateProductData">
+      <div class="my-3">
+        <button class="btn btn-primary" @click.prevent="onCloseDialog()">close</button>
+      </div>
+    </FormComponents>
+  </div>
 </template>
 
 <script>
@@ -46,12 +54,14 @@ import TableLite from "vue3-table-lite";
 import axios from "axios";
 const searchTerm = ref("");
 const data = ref([]);
+import FormComponents from "../components/FormComponent.vue";
 export default defineComponent({
   name: "product",
-  components: { TableLite},
+  components: { TableLite, FormComponents },
   setup() {
     axios.get("http://localhost/products").then((response) => {
       data.value = response.data;
+      console.log(data.value);
     });
     const table = reactive({
       isLoading: false,
@@ -84,7 +94,11 @@ export default defineComponent({
           width: "15%",
         },
       ],
+      form: false,
     });
+    const updateProductData = (newProduct) => {
+      data.value.push(newProduct);
+    };
     const inputStyle = {
       width: "100%",
       padding: "8px",
@@ -129,11 +143,19 @@ export default defineComponent({
         );
       });
     });
-
+    function onSHowDialog() {
+      table.form = true;
+    }
+    function onCloseDialog() {
+      table.form = false;
+    }
     return {
       table,
       initTable,
       filteredProducts,
+      onSHowDialog,
+      onCloseDialog,
+      updateProductData
     };
   },
 });
