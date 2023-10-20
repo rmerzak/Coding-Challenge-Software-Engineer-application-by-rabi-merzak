@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Services\ProductService;
+use App\Http\Requests\CreateProductRequest;
+
 class ProductController extends Controller
 {
     protected $productService;
@@ -18,14 +20,42 @@ class ProductController extends Controller
         return response()->json($products);
     }
 
-    public function store(Request $request)
-    {
-        $result = ['status' => 200];
+//     public function store(Request $request)
+//     {
+//         $result = ['status' => 200];
+//     try {
+//         $product = $this->productService->saveProductData($request);
+//         if ($request->has('category_ids')) {
+//             $categoryIds = explode(',', $request->input('category_ids'));
+
+//             $categoryIds = array_map('intval', $categoryIds);
+
+//             foreach ($categoryIds as $categoryId) {
+//                 $product->categories()->attach($categoryId);
+//             }
+//         }
+
+//         $result['product'] = $product;
+//     } catch (Exception $e) {
+//         $result = [
+//             'status' => 500,
+//             'error' => $e->getMessage()
+//         ];
+//     }
+
+//     return response()->json($result, $result['status']);
+// }
+public function store(CreateProductRequest $request)
+{
+    $result = ['status' => 200];
+
     try {
-        $product = $this->productService->saveProductData($request);
+        $productData = $request->validated();
+        $productData = $request->only(['name', 'description', 'price', 'image']);
+        $product = $this->productService->saveProductData($productData);
+
         if ($request->has('category_ids')) {
             $categoryIds = explode(',', $request->input('category_ids'));
-
             $categoryIds = array_map('intval', $categoryIds);
 
             foreach ($categoryIds as $categoryId) {
@@ -44,31 +74,32 @@ class ProductController extends Controller
     return response()->json($result, $result['status']);
 }
 
+// public function store(Request $request)
+// {
+//     $result = ['status' => 200];
 
-    public function show(string $id)
-    {
-        //
-    }
+//     try {
+//         $productData = $request->only(['name', 'description', 'price', 'image']);
 
+//         $product = $this->productService->saveProductData($productData, $user);
 
-    public function edit(string $id)
-    {
-        //
-    }
+//         if ($request->has('category_ids')) {
+//             $categoryIds = explode(',', $request->input('category_ids'));
+//             $categoryIds = array_map('intval', $categoryIds);
 
-    public function create()
-    {
-        //
-    }
+//             foreach ($categoryIds as $categoryId) {
+//                 $product->categories()->attach($categoryId);
+//             }
+//         }
 
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+//         $result['product'] = $product;
+//     } catch (Exception $e) {
+//         $result = [
+//             'status' => 500,
+//             'error' => $e->getMessage()
+//         ];
+//     }
 
-
-    public function destroy(string $id)
-    {
-        //
-    }
+//     return response()->json($result, $result['status']);
+// }
 }
