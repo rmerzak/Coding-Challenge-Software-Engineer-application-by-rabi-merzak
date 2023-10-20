@@ -1,4 +1,4 @@
-FROM php:8.2-fpm-bullseye AS base
+FROM php:7.4-fpm-buster AS base
 
 WORKDIR /workspace
 
@@ -36,7 +36,7 @@ RUN apt-get update \
 
 FROM base AS development
 
-COPY ./infra/docker/php/php.development.ini /usr/local/etc/php/php.ini
+COPY ./backend-project/infra/docker/php/php.development.ini /usr/local/etc/php/php.ini
 
 FROM development AS development-xdebug
 
