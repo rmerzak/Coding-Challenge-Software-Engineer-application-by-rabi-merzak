@@ -8,21 +8,20 @@ class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
+     *
+     * @return void
      */
-    public function register(): void
+    public function register()
     {
-        $this->app->bind(\App\Repositories\ProductRepository::class, function ($app) {
-            return new \App\Repositories\ProductRepository($app->make(\App\Models\Product::class));
-        });
-        $this->app->bind(\App\Services\ProductService::class, function ($app) {
-            return new \App\Services\ProductService($app->make(\App\Repositories\ProductRepository::class));
-        });
+        //
     }
 
     /**
      * Bootstrap any application services.
+     *
+     * @return void
      */
-    public function boot(): void
+    public function boot()
     {
         //
     }

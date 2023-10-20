@@ -7,7 +7,7 @@
           <InputText type="text" placeholder="Price" v-model="price" />
           <InputText type="text" placeholder="Description" v-model="description" />
           <Multiselect
-            v-model="value"
+            v-model="value" 
             mode="tags"
             placeholder="Select categories"
             track-by="id"

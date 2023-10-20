@@ -2,11 +2,11 @@ services:
   app:
     build:
       context: .
-      dockerfile: ./infra/docker/php/Dockerfile
+      dockerfile: ./backend-project/infra/docker/php/Dockerfile
       target: ${APP_BUILD_TARGET:-development}
     volumes:
       - type: bind
-        source: ./src
+        source: ./backend-project/src
         target: /workspace
       - type: volume
         source: psysh-store
@@ -28,7 +28,7 @@ services:
   web:
     build:
       context: .
-      dockerfile: ./infra/docker/nginx/Dockerfile
+      dockerfile: ./backend-project/infra/docker/nginx/Dockerfile
     ports:
       - target: 80
         published: ${WEB_PUBLISHED_PORT:-80}
@@ -36,12 +36,12 @@ services:
         mode: host
     volumes:
       - type: bind
-        source: ./src
+        source: ./backend-project/src
         target: /workspace
   db:
     build:
       context: .
-      dockerfile: ./infra/docker/mysql/Dockerfile
+      dockerfile: ./backend-project/infra/docker/mysql/Dockerfile
     ports:
       - target: 3306
         published: ${DB_PUBLISHED_PORT:-3306}
@@ -61,6 +61,20 @@ services:
       - MYSQL_USER=${DB_USERNAME:-youcan}
       - MYSQL_PASSWORD=${DB_PASSWORD:-secret}
       - MYSQL_ROOT_PASSWORD=${DB_PASSWORD:-secret}
+  vue-app:
+    build:
+      context: .
+      dockerfile: ./frontend-project/Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+    - type: bind
+      source: ./frontend-project/src
+      target: /usr/src/app/src
+    - type: bind
+      source: ./backend-project/src/storage/app/public/images
+      target: /usr/src/app/public/images
+    working_dir: /usr/src/app
   adminer:
     image: adminer
     ports:
@@ -73,4 +87,4 @@ volumes:
   psysh-store:
 configs:
   db-config:
-    file: ./infra/docker/mysql/my.cnf
+    file: ./backend-project/infra/docker/mysql/my.cnf

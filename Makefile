@@ -18,7 +18,7 @@ create-project:
 	@make fresh
 	@make migrate
 up:
-	docker compose up -d
+	docker compose up
 build:
 	docker compose build
 remake:

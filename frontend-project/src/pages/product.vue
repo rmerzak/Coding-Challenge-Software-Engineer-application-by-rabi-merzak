@@ -14,7 +14,7 @@
       <template v-if="data.value.image">
         <img
           :src="
-            require('../../../backend-project/src/storage/app/public/image/' +
+            require('/usr/src/app/public/' +
               data.value.image)
           "
           width="100"
