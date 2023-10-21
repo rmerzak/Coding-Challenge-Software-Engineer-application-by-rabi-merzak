@@ -31,7 +31,7 @@ class ProductController extends Controller
                 $path = $image->store('images', 'public');
                 $productData['image'] = $path;
             } else {
-                $productData['image'] = 'no.png';
+                $productData['image'] = 'images/no.png';
             }
             $product = $this->productService->saveProductData($productData);
         if ($request->has('category_ids')) {

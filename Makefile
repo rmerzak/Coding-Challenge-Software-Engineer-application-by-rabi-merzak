@@ -64,5 +64,7 @@ db:
 	docker compose exec db bash
 seed:
 	docker compose exec app php artisan db:seed --class=CategoriesTableSeeder
+	docker compose exec app php artisan db:seed --class=ProductsTableSeeder
+	docker compose exec app php artisan db:seed --class=CategoryProductsTableSeeder
 sql:
 	docker compose exec db bash -c 'mysql -u $$MYSQL_USER -p$$MYSQL_PASSWORD $$MYSQL_DATABASE'
