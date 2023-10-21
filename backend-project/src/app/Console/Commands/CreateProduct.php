@@ -55,7 +55,7 @@ class CreateProduct extends Command
     protected function storeImage($imagePath)
     {
         if (empty($imagePath) || !file_exists($imagePath)) {
-            return 'no.png';
+            return 'images/no.png';
         }
 
         $image = new UploadedFile($imagePath, pathinfo($imagePath, PATHINFO_FILENAME));
