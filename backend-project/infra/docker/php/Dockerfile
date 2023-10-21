@@ -8,7 +8,6 @@ ENV TZ=UTC \
   LANG=en_US.UTF-8 \
   LANGUAGE=en_US:en \
   LC_ALL=en_US.UTF-8 \
-  # composer environment
   COMPOSER_ALLOW_SUPERUSER=1 \
   COMPOSER_HOME=/composer
 
@@ -43,12 +42,12 @@ FROM development AS development-xdebug
 RUN pecl install xdebug && \
   docker-php-ext-enable xdebug
 
-COPY ./infra/docker/php/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+COPY ./backend-project/docker/php/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
 FROM base AS deploy
 
-COPY ./infra/docker/php/php.deploy.ini /usr/local/etc/php/php.ini
-COPY ./src /workspace
+COPY ./backend-project/docker/php/php.deploy.ini /usr/local/etc/php/php.ini
+COPY ./backend-project/src /workspace
 
 RUN composer install -q -n --no-ansi --no-dev --no-scripts --no-progress --prefer-dist \
   && chmod -R 777 storage bootstrap/cache \

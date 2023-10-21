@@ -1,5 +1,7 @@
 services:
   app:
+    image: app
+    container_name: app
     build:
       context: .
       dockerfile: ./backend-project/infra/docker/php/Dockerfile
@@ -26,6 +28,8 @@ services:
       - DB_USERNAME=${DB_USERNAME:-youcan}
       - DB_PASSWORD=${DB_PASSWORD:-secret}
   web:
+    image: web
+    container_name: web
     build:
       context: .
       dockerfile: ./backend-project/infra/docker/nginx/Dockerfile
@@ -39,6 +43,8 @@ services:
         source: ./backend-project/src
         target: /workspace
   db:
+    image: db
+    container_name: db
     build:
       context: .
       dockerfile: ./backend-project/infra/docker/mysql/Dockerfile
@@ -62,6 +68,8 @@ services:
       - MYSQL_PASSWORD=${DB_PASSWORD:-secret}
       - MYSQL_ROOT_PASSWORD=${DB_PASSWORD:-secret}
   vue-app:
+    image: vue-app
+    container_name: vue-app
     build:
       context: .
       dockerfile: ./frontend-project/Dockerfile
@@ -77,6 +85,7 @@ services:
     working_dir: /usr/src/app
   adminer:
     image: adminer
+    container_name: adminer
     ports:
       - target: 8080
         published: ${ADMINER_PUBLISHED_PORT:-8081}
