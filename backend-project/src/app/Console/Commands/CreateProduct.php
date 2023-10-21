@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Services\ProductService;
+use Illuminate\Http\UploadedFile;
 class CreateProduct extends Command
 {
     protected $signature = 'create:product';
@@ -21,18 +22,14 @@ class CreateProduct extends Command
         ];
         $imagePath = $this->ask('Enter the path to the image file (leave empty if none):');
         if (!empty($imagePath) && file_exists($imagePath)) {
-            $imageName = pathinfo($imagePath, PATHINFO_FILENAME);
-            $extension = pathinfo($imagePath, PATHINFO_EXTENSION);
-            $fileNameToStore = $imageName . '_' . time() . '.' . $extension;
-            \Storage::disk('public')->put('images/' . $fileNameToStore, file_get_contents($imagePath));
+            $image = new UploadedFile($imagePath, pathinfo($imagePath, PATHINFO_FILENAME));
+            $path = $image->store('images', 'public');
+            $data['image'] = $path;
         } else {
-            $fileNameToStore = 'no.png';
+            $data['image'] = 'no.png';
         }
-        $data['image'] = $fileNameToStore;
-        //dd($data);
         $productService = app(ProductService::class);
         $result = $productService->saveProductData($data);
-        //dd($result);
         if ($result['status'] === 200) {
             $this->info('Product created successfully!');
         } else {
