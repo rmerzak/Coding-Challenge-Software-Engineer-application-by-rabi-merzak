@@ -22,19 +22,9 @@ class ProductRepository
         return $this->product->all();
     }
 
-    public function getAll()
-    {
-        return $this->product->get();
-    }
-
     public function getAllWithCategory()
     {
         return Product::with('categories')->get();
-    }
-
-    public function getById($id)
-    {
-        return $this->product->where('id', $id)->get();
     }
 
     public function save($data)
@@ -42,15 +32,4 @@ class ProductRepository
         $data->save();
         return $data->fresh();
     }
-
-    public function delete($id)
-    {
-        $product = $this->product->find($id);
-        if (!$product) {
-            throw new InvalidArgumentException('Product not found');
-        }
-        $product->delete();
-        return $product;
-    }
-
 }

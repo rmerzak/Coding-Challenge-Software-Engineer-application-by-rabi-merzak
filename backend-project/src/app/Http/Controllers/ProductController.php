@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Services\ProductService;
 use App\Http\Requests\CreateProductRequest;
 
+
 class ProductController extends Controller
 {
     protected $productService;
@@ -14,38 +15,30 @@ class ProductController extends Controller
     {
         $this->productService = $productService;
     }
+
     public function index()
     {
         $products = $this->productService->getAll();
         return response()->json($products);
     }
+
     public function store(CreateProductRequest $request)
     {
-        $result = ['status' => 200];
-
         try {
-            $productData = $request->validated();
-            $productData = $request->only(['name', 'description', 'price', 'image']);
-            if ($request->hasFile('image')) {
-                $image = $request->file('image');
-                $path = $image->store('images', 'public');
-                $productData['image'] = $path;
-            } else {
-                $productData['image'] = 'images/no.png';
-            }
+            $productData = $this->productService->processProductData($request);
+
             $product = $this->productService->saveProductData($productData);
-        if ($request->has('category_ids')) {
-            $categoryIds = explode(',', $request->input('category_ids'));
-            $categoryIds = array_map('intval', $categoryIds);
-            foreach ($categoryIds as $categoryId) {
-                $product->categories()->attach($categoryId);
-            }
-        }
-        $result['product'] = $product;
+
+            $this->productService->attachCategories($request, $product);
+
+            $result = [
+                'status' => 200,
+                'product' => $product,
+            ];
         } catch (Exception $e) {
             $result = [
                 'status' => 500,
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ];
         }
 

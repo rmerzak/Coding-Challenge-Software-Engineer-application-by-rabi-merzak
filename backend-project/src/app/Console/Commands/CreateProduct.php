@@ -11,11 +11,13 @@ class CreateProduct extends Command
     protected $signature = 'create:product';
     protected $description = 'Create a new product';
     protected $categoryRepository;
+    protected $productService;
 
-    public function __construct(CategoryRepository $categoryRepository)
+    public function __construct(CategoryRepository $categoryRepository, ProductService $productService)
     {
         parent::__construct();
         $this->categoryRepository = $categoryRepository;
+        $this->productService = $productService;
     }
 
     public function handle()
@@ -23,11 +25,16 @@ class CreateProduct extends Command
         try {
             $data = $this->gatherProductData();
 
-            $productService = app(ProductService::class);
-            $product = $productService->saveProductData($data);
+            $product = $this->productService->saveProductData($data);
             $categories = $this->categoryRepository->getAll();
             $categoryIdsInput = $this->askForCategoryIds($categories);
-            $categoryIds = explode(',', $categoryIdsInput);
+            if (!empty($categoryIdsInput)) {
+                $categoryIds = explode(',', $categoryIdsInput);
+                $categories = $this->categoryRepository->getAll();
+                foreach ($categoryIds as $categoryId) {
+                    $product->categories()->attach($categoryId);
+                }
+            }
             $this->outputResult(200, 'Product created successfully!', $product);
 
         } catch (\Exception $e) {
@@ -83,7 +90,12 @@ class CreateProduct extends Command
         foreach ($categories as $category) {
             $categoriesList[] = $category->id . ': ' . $category->name;
         }
-        $categoryIdsInput = $this->ask('Select category IDs from the list below (comma-separated)[X,Y,...]:', implode(', ', $categoriesList));
+        echo "Available Categories:\n";
+        foreach ($categoriesList as $categoryInfo) {
+            echo $categoryInfo . "\n";
+        }
+        $categoryIdsInput = $this->ask('Select category IDs from the list below (comma-separated)[X,Y,...]:');
         return $categoryIdsInput;
     }
 }
+?>
