@@ -31,8 +31,7 @@ class ProductService
         $product->description = $productData['description'];
         $product->price = $productData['price'];
         $product->image = $productData['image'];
-        //$result = $this->productRepository->save($request);
-        $product->save();
+        $result = $this->productRepository->save($product);
 
         return $product;
     }

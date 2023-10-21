@@ -47,6 +47,8 @@ migrate:
 	docker compose exec app php artisan migrate
 fresh:
 	docker compose exec app php artisan migrate:fresh --seed
+create:
+	docker compose exec app php artisan create:product
 test:
 	docker compose exec app php artisan test
 cache:
@@ -61,6 +63,6 @@ cache-clear:
 db:
 	docker compose exec db bash
 seed:
-	docker compose exec app php artisan db:seed
+	docker compose exec app php artisan db:seed --class=CategoriesTableSeeder
 sql:
 	docker compose exec db bash -c 'mysql -u $$MYSQL_USER -p$$MYSQL_PASSWORD $$MYSQL_DATABASE'
