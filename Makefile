@@ -1,6 +1,4 @@
 install:
-	@make build
-	@make up
 	docker compose exec app composer install
 	docker compose exec app cp .env.example .env
 	docker compose exec app php artisan key:generate
@@ -62,5 +60,7 @@ cache-clear:
 	docker compose exec app php artisan event:clear
 db:
 	docker compose exec db bash
+seed:
+	docker compose exec app php artisan db:seed
 sql:
 	docker compose exec db bash -c 'mysql -u $$MYSQL_USER -p$$MYSQL_PASSWORD $$MYSQL_DATABASE'
