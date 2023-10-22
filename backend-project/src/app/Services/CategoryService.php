@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use InvalidArgumentException;
-
+use App\Models\Category;
+use App\Http\Requests\CategoryRequest;
 class CategoryService
 {
     protected $categoryRepository;
@@ -23,17 +24,19 @@ class CategoryService
         return $this->categoryRepository->getAll();
     }
 
-    public function saveCategoryData($request)
+    public function processCategoryData(CategoryRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name'=>'required',
-        ]);
+        $categoryData = $request->only(['name', 'parent_id']);
+        return $categoryData;
+    }
+    public function saveCategoryData($categoryData)
+    {
+        $category = new Category();
+        $category->name = $categoryData['name'];
+        $category->parent_id = $categoryData['parent_id'];
 
-        if ($validator->fails()) {
-            throw new InvalidArgumentException($validator->errors()->first());
-        }
-        $result = $this->categoryRepository->save($request);
+        $result = $this->categoryRepository->save($category);
 
-        return $result;
+        return $category;
     }
 }
