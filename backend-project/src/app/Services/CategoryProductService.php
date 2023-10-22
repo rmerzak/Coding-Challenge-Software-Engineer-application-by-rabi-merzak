@@ -11,15 +11,15 @@ use InvalidArgumentException;
 
 class CategoryProductService
 {
-    protected $categoryProductService;
+    protected $categoryProductRepository;
 
-    public function __construct(CategoryProductService $categoryProductService)
+    public function __construct(CategoryProductRepository $categoryProductRepository)
     {
-        $this->categoryProductService = $categoryProductService;
+        $this->categoryProductRepository = $categoryProductRepository;
     }
 
     public function getAll()
     {
-        return $this->categoryProductService->getAll();
+        return $this->categoryProductRepository->getAll();
     }
 }

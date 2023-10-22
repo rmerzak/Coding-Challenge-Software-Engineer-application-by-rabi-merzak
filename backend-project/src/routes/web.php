@@ -19,14 +19,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//////////////
 Route::resource('products', ProductController::class);
-///////////////
 
-///////////////
 Route::resource('category', CategoryController::class);
-///////////////
 
-//////////////////////
 Route::resource('CategoryProduct', CategoryProductController::class);
-/////////////////////

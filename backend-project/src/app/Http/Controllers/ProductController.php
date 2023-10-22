@@ -5,10 +5,14 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Services\ProductService;
 use App\Http\Requests\CreateProductRequest;
-
+use App\Traits\HttpResponses;
+use Illuminate\Support\Facades\DB;
+use App\Http\Resources\ProductResource;
 
 class ProductController extends Controller
 {
+    use HttpResponses;
+
     protected $productService;
 
     public function __construct(ProductService $productService)
@@ -19,29 +23,19 @@ class ProductController extends Controller
     public function index()
     {
         $products = $this->productService->getAll();
-        return response()->json($products);
+        return $this->handleResponse(compact('products'));
     }
 
     public function store(CreateProductRequest $request)
     {
         try {
             $productData = $this->productService->processProductData($request);
-
             $product = $this->productService->saveProductData($productData);
-
             $this->productService->attachCategories($request, $product);
-
-            $result = [
-                'status' => 200,
-                'product' => $product,
-            ];
+            return $this->handleResponse((new ProductResource($product)), 'Product Added Successfully!');
         } catch (Exception $e) {
-            $result = [
-                'status' => 500,
-                'error' => $e->getMessage(),
-            ];
+            DB::rollBack();
+            return $this->handleError($e->getMessage(), 500);
         }
-
-        return response()->json($result, $result['status']);
     }
 }
