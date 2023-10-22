@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <input type="text" v-model="categoryFilter" placeholder="Filter by category name" />
+      <input type="text" v-model="categoryFilter" class="form-control" placeholder="Filter by category name" />
     </div>
     <table class="table">
       <thead>

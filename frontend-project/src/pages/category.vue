@@ -1,13 +1,9 @@
 <template>
-  <div>
-    <h3 class="text-2xl font-bold text-left py-2">category</h3>
-  </div>
+<div></div>
 </template>
 
 <script>
-export default {
 
-}
 </script>
 
 <style>
