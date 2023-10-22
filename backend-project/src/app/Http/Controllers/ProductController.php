@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Services\ProductService;
-use App\Http\Requests\CreateProductRequest;
+use App\Http\Requests\ProductRequest;
 use App\Traits\HttpResponses;
 use Illuminate\Support\Facades\DB;
 use App\Http\Resources\ProductResource;
@@ -26,7 +26,7 @@ class ProductController extends Controller
         return $this->handleResponse(compact('products'));
     }
 
-    public function store(CreateProductRequest $request)
+    public function store(ProductRequest $request)
     {
         try {
             $productData = $this->productService->processProductData($request);

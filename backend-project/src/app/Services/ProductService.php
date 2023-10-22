@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Repositories\ProductRepository;
 use Exception;
 use InvalidArgumentException;
-use App\Http\Requests\CreateProductRequest;
+use App\Http\Requests\ProductRequest;
 use App\Models\Product;
 
 class ProductService
@@ -33,7 +33,7 @@ class ProductService
 
         return $product;
     }
-    public function processProductData(CreateProductRequest $request)
+    public function processProductData(ProductRequest $request)
     {
         $productData = $request->only(['name', 'description', 'price']);
         if ($request->hasFile('image')) {
@@ -46,7 +46,7 @@ class ProductService
         return $productData;
     }
 
-    public function attachCategories(CreateProductRequest $request, Product $product)
+    public function attachCategories(ProductRequest $request, Product $product)
     {
         if ($request->has('category_ids')) {
             $categoryIds = explode(',', $request->input('category_ids'));
