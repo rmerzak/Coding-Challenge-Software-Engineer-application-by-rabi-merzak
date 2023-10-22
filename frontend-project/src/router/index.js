@@ -1,12 +1,13 @@
 import { createRouter, createWebHistory } from "vue-router";
-import dashboardApp from "../master/dashboard-app";
+import Layout from "../components/master/Layout.vue";
 import product from "../pages/product";
 import category from "../pages/category";
+import NotFoundComponent from "../components/NotFoundComponent.vue"
 
 const routes = [
   {
-    name: "dashboard-app",
-    component: dashboardApp,
+    name: "Layout",
+    component: Layout,
     path: "/",
     children: [
       {
@@ -18,6 +19,10 @@ const routes = [
         name: "category",
         component: category,
         path: "/category",
+      },
+      {
+        path: '/:catchAll(.*)',
+        component: NotFoundComponent, // add this in the end
       },
     ],
   },
