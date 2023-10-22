@@ -83,14 +83,16 @@ services:
       source: ./backend-project/src/storage/app/public/images
       target: /usr/src/app/public/images
     working_dir: /usr/src/app
-  adminer:
+  adminer-app:
+    build:
+      context: .
+      dockerfile: ./backend-project/infra/docker/adminer/Dockerfile
     image: adminer
-    container_name: adminer
+    container_name: adminer-app
     ports:
-      - target: 8080
-        published: ${ADMINER_PUBLISHED_PORT:-8081}
-        protocol: tcp
-        mode: host
+      - "8081:8080"
+    environment:
+      - ADMINER_DEFAULT_SERVER=db
 volumes:
   db-store:
   psysh-store:
