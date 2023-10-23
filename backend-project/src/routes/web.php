@@ -18,9 +18,8 @@ use App\Http\Controllers\CategoryProductController;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::post('products',[ProductController::class, 'store']);
+Route::get('products',[ProductController::class, 'index']);
 
-Route::resource('products', ProductController::class);
-
-Route::resource('category', CategoryController::class);
-
-Route::resource('CategoryProduct', CategoryProductController::class);
+Route::post('category',[CategoryController::class, 'store']);
+Route::get('category',[CategoryController::class, 'index']);
