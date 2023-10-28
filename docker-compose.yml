@@ -81,8 +81,10 @@ services:
       target: /usr/src/app/src
     - type: bind
       source: ./backend-project/src/storage/app/public/images
-      target: /usr/src/app/public/images
+      target: /usr/src/app/src/assets/images
     working_dir: /usr/src/app
+    depends_on:
+      - app
   adminer-app:
     build:
       context: .

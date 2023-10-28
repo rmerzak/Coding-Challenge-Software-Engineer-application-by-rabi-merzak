@@ -24,7 +24,7 @@
           <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">{{ row.price }}</td>
           <td class="w-32 p-4">
             <img
-              :src="require('/usr/src/app/public/' + row.image)"
+              :src="require('/usr/src/app/src/assets/' + row.image)"
               width="100"
               height="100"
             />
