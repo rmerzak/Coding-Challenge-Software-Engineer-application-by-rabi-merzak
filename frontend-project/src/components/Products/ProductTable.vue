@@ -3,10 +3,10 @@
     <div>
       <input type="text" v-model="categoryFilter" class="form-control" placeholder="Filter by category name" />
     </div>
-    <table class="table">
-      <thead>
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
         <tr>
-          <th v-for="(col, index) in head" :key="index" scope="col">
+          <th v-for="(col, index) in head" :key="index" scope="col" class="px-6 py-3">
             {{ col }}
             <button @click="updateSortOrder('asc')" v-if="col === 'Price'">
               &#9650;
@@ -18,18 +18,18 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="row in paginatedData" :key="row.id && index">
-          <td>{{ row.name }}</td>
-          <td>{{ row.description }}</td>
-          <td>{{ row.price }}</td>
-          <td>
+        <tr v-for="row in paginatedData" :key="row.id && index" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+          <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">{{ row.name }}</td>
+          <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">{{ row.description }}</td>
+          <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">{{ row.price }}</td>
+          <td class="w-32 p-4">
             <img
               :src="require('/usr/src/app/public/' + row.image)"
               width="100"
               height="100"
             />
           </td>
-          <td>
+          <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
             <ul>
               <li v-for="category in row.categories" :key="category.id">
                 {{ category.name }}
@@ -74,6 +74,7 @@
   </div>
 </template>
 <script>
+import {calculateTotalPages, calculatePageNumbers, getPaginatedData, sortProduct} from '../../helpers/paginationHelpers'
 export default {
   props: {
     product: Array,
@@ -82,70 +83,23 @@ export default {
   data() {
     return {
       currentPage: 1,
-      pageSize: 5,
+      pageSize: 3,
       sortOrder: null,
       categoryFilter: "",
     };
   },
   computed: {
     totalPages() {
-      return Math.ceil(this.product.length / this.pageSize);
+      return calculateTotalPages(this.product, this.pageSize);
     },
     pageNumbers() {
-      const pageNumbers = [];
-      if (this.totalPages <= 7) {
-        for (let i = 1; i <= this.totalPages; i++) {
-          pageNumbers.push(i);
-        }
-      } else {
-        if (this.currentPage <= 4) {
-          for (let i = 1; i <= 5; i++) {
-            pageNumbers.push(i);
-          }
-          pageNumbers.push("...");
-          pageNumbers.push(this.totalPages);
-        } else if (this.currentPage >= this.totalPages - 3) {
-          pageNumbers.push(1);
-          pageNumbers.push("...");
-          for (let i = this.totalPages - 4; i <= this.totalPages; i++) {
-            pageNumbers.push(i);
-          }
-        } else {
-          pageNumbers.push(1);
-          pageNumbers.push("...");
-          for (let i = this.currentPage - 1; i <= this.currentPage + 1; i++) {
-            pageNumbers.push(i);
-          }
-          pageNumbers.push("...");
-          pageNumbers.push(this.totalPages);
-        }
-      }
-      return pageNumbers;
+      return calculatePageNumbers(this.totalPages, this.currentPage);
     },
     paginatedData() {
-      const startIndex = (this.currentPage - 1) * this.pageSize;
-      const endIndex = startIndex + this.pageSize;
-      const filteredProduct = this.sortedProduct.filter((product) => {
-        if (this.categoryFilter) {
-          return product.categories.some((category) =>
-            category.name.toLowerCase().includes(this.categoryFilter.toLowerCase())
-          );
-        } else {
-          return true;
-        }
-      });
-      return filteredProduct.slice(startIndex, endIndex);
+      return getPaginatedData(this.product, this.currentPage, this.pageSize, this.categoryFilter, this.sortOrder);
     },
     sortedProduct() {
-      if (this.sortOrder === "asc") {
-        console.log([...this.product].sort((a, b) => a.price - b.price));
-        return [...this.product].sort((a, b) => a.price - b.price);
-      } else if (this.sortOrder === "desc") {
-        console.log([...this.product].sort((a, b) => b.price - a.price));
-        return [...this.product].sort((a, b) => b.price - a.price);
-      } else {
-        return this.product;
-      }
+      return sortProduct(this.product, this.sortOrder);
     },
   },
   methods: {
