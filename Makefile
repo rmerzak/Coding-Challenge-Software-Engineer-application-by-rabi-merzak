@@ -1,6 +1,6 @@
 install:
 	@make build
-	@make up
+	@make detach
 	docker compose exec app composer install
 	docker compose exec app cp .env.example .env
 	docker compose exec app php artisan key:generate
@@ -17,8 +17,10 @@ create-project:
 	docker compose exec app chmod -R 777 storage bootstrap/cache
 	@make fresh
 	@make migrate
+detach:
+	docker compose u -d
 up:
-	docker compose up -d
+	docker compose up
 build:
 	docker compose build
 remake:
