@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Index from "../components/master/Index.vue";
+import Index from "../components/Layout/Index.vue";
 import product from "../pages/product";
 import category from "../pages/category";
 import NotFoundComponent from "../components/404/NotFoundComponent.vue"
@@ -8,7 +8,7 @@ const routes = [
   {
     name: "Layout",
     component: Index,
-    path: "/product",
+    path: "/",
     children: [
       {
         name: "product",
