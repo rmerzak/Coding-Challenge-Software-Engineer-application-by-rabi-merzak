@@ -4,7 +4,7 @@
       <Sidebar :showSideBar="showSideBar" />
       <div class="w-full h-full">
         <Header :toggleSideBar="toggleSideBar" />
-        <div class="border rounded-md h-full p-[10px]">
+        <div class="border rounded-md p-[10px]">
           <router-view></router-view>
         </div>
       </div>
