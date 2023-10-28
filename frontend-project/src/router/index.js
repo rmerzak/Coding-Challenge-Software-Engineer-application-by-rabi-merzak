@@ -1,14 +1,14 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Layout from "../components/master/Layout.vue";
+import Index from "../components/master/Index.vue";
 import product from "../pages/product";
 import category from "../pages/category";
-import NotFoundComponent from "../components/NotFoundComponent.vue"
+import NotFoundComponent from "../components/404/NotFoundComponent.vue"
 
 const routes = [
   {
     name: "Layout",
-    component: Layout,
-    path: "/",
+    component: Index,
+    path: "/product",
     children: [
       {
         name: "product",
@@ -22,7 +22,7 @@ const routes = [
       },
       {
         path: '/:catchAll(.*)',
-        component: NotFoundComponent, // add this in the end
+        component: NotFoundComponent,
       },
     ],
   },
