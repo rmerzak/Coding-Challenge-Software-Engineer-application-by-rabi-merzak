@@ -18,7 +18,7 @@ create-project:
 	@make fresh
 	@make migrate
 detach:
-	docker compose u -d
+	docker compose up -d
 up:
 	docker compose up
 build:
