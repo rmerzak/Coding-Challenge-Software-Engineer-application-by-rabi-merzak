@@ -9,7 +9,8 @@
 <script>
 import ProdutTable from '../components/Products/ProductTable.vue'
 import StoreProduct from '../components/Products/StoreProduct.vue'
-import axios from 'axios';
+import ProductsAPIService from '../services/products/ProductsAPIService'
+const productsAPIService = new ProductsAPIService();
 export default {
   components: {
     ProdutTable,
@@ -27,15 +28,10 @@ export default {
       this.revele = !this.revele;
     }
   },
-  created() {
-    axios.get('http://localhost/products')
-      .then(response => {
-        console.log(response.data.data)
-        this.tableData = response.data.data.products;
-      })
-      .catch(error => {
-        console.error('Error fetching data: ' + error);
-      });
+  async created() {
+    const [error, data] = await productsAPIService.getProduct();
+    if (error) console.error('Error fetching data:', error);
+    else this.tableData = data.data.products;
   },
 }
 </script>
