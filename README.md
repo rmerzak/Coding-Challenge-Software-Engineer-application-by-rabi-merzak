@@ -1,5 +1,14 @@
 # Coding challenge 
 
+## Quote of the day:
+
+*Any organization that designs a system (defined broadly) will produce a design whose structure is a copy of the organization's communication structure.
+-- Melvin Conway, 1968*
+
+source: https://martinfowler.com/bliki/ConwaysLaw.html
+
+
+
 ## Introduction
 
 A simple product management system built with Laravel and Vue.js, created as a coding challenge for the position of Junior Software Engineer - Backend (PHP).
@@ -14,16 +23,26 @@ This command  is part of an installation and setup process for our web applicati
 $ make install
 ```
 #### frontend:
+
+create an ```.env``` file inside frontend-project:
+```bash
+API_BASE_URL=http://localhost/
+```
+to access the table check the link below:
 http://localhost:8080/product
+
 #### backend:
 http://localhost
 #### Adminer:
 http://localhost:8081
-server: db
-username: youcan
-password: secret
-Database: laravel
 
+```server: db```
+
+```username: youcan```
+
+```password: secret```
+
+```Database: laravel```
 
 ### Container structures
 
