@@ -80,6 +80,7 @@ export default {
       this.description = "";
       this.value = null;
       this.selectedImage = null;
+      this.selectedCategorys = [];
     },
     async submit() {
       if (validateForm(this.name,this.description,this.price)) {
@@ -97,15 +98,20 @@ export default {
 
         const [error, data] = await productsAPIService.addProduct(formData);
         if (error) {
+          alert(data.message)
           console.error("Error Adding data:", error);
         } else {
-          console.log(data);
+          alert(data.message)
           this.clearForm();
+          this.refreshPage();
         }
       } else {
         this.errorMessage = "Erreur : required fields";
       }
     },
+    refreshPage() {
+    window.location.reload();
+  },
   },
 };
 </script>
