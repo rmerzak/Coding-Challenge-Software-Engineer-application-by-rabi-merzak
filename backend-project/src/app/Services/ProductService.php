@@ -47,13 +47,14 @@ class ProductService
     }
 
     public function attachCategories(ProductRequest $request, Product $product)
-    {
-        if ($request->has('category_ids')) {
-            $categoryIds = explode(',', $request->input('category_ids'));
-            $categoryIds = array_map('intval', $categoryIds);
-            foreach ($categoryIds as $categoryId) {
-                $product->categories()->attach($categoryId);
-            }
+{
+    if ($request->has('category_ids')) {
+        $categoryIds = explode(',', $request->input('category_ids'));
+        $categoryIds = array_map('intval', $categoryIds);
+        $categoryIds = array_filter($categoryIds);
+        foreach ($categoryIds as $categoryId) {
+            $product->categories()->attach($categoryId);
         }
     }
+}
 }
